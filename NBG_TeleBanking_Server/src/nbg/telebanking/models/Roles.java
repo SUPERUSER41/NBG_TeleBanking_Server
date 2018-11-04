@@ -1,19 +1,24 @@
 package nbg.telebanking.models;
 
 import java.io.Serializable;
-
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.ManyToMany;
 
 @Entity
 @Table(name="nbg_roles")
 public class Roles implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	@ManyToMany(mappedBy = "nbg_roles")
+	private Set<User> users= new HashSet<>();
 	
 	@Id
 	@Column(name="role_id", nullable=false, updatable=false)

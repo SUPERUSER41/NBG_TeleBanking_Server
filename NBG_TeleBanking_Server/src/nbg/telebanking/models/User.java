@@ -11,13 +11,29 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
 
 @Entity
 @Table(name="nbg_users")
 public class User implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(
+			name="user_roles",
+			joinColumns= { @JoinColumn(name ="user_id")},
+			inverseJoinColumns = { @JoinColumn(name="role_id")})
+	private Set<Roles> roles= new HashSet<>();
+	
+	@ManyToOne
+	@JoinColumn(name="fk_msgs")//foreign key column
 	
 	@Id
 	@Column(name="user_id", nullable=false, updatable=false)
