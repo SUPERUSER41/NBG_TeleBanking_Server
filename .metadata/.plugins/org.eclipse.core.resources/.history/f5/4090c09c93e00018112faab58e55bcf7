@@ -1,0 +1,82 @@
+package nbg.telebanking.database;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+
+import nbg.telebanking.models.NBGTransaction;
+import nbg.telebanking.models.NBGUser;
+
+public class DBManager extends HibernateConnector{
+	private static DBManager instance;
+
+	public static DBManager getInstance() {
+		if (instance == null) {
+			instance = new DBManager();
+		}
+		return instance;
+	}
+	
+	//Adds a user's transaction
+	public NBGTransaction addUserTransaction(NBGUser user, NBGTransaction nbgTrans) {
+		Session session = getSession();
+		Transaction trans = null;
+		try {
+			trans = session.beginTransaction();
+			user.addTransaction(nbgTrans);
+			session.save(user);
+			trans.commit();
+			return nbgTrans;
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			if (trans != null) {
+				trans.rollback();
+			}
+
+		} finally {
+			if (trans != null && trans.isActive()) {
+				session.flush();
+			}
+			session.close();
+		}
+		return null;
+	}
+	
+	public void retrieveUserTransaction(int id) {
+		Session session = getSession();
+		Transaction trans = null;
+		NBGUser user = null;
+		try {
+			trans = session.beginTransaction();
+			String hql = "from NBGTransaction t join t.user u where u.userID=:userID";
+			@SuppressWarnings("unchecked")
+			Query<Object[]> query = session.createQuery(hql);
+			query.setParameter("userID", id);
+			List<Object[]> res = query.list(); 
+			for(Object[]r : res) {
+				System.out.println(res);
+			}
+			
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			if (trans != null) {
+				trans.rollback();
+			}
+
+		} finally {
+			if (trans != null && trans.isActive()) {
+				session.flush();
+			}
+			session.close();
+		}
+		
+		
+	}
+	
+	 
+
+}

@@ -1,0 +1,76 @@
+package nbg.telebanking.database;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+
+import nbg.telebanking.models.NBGTransaction;
+import nbg.telebanking.models.NBGUser;
+
+public class DBManager extends HibernateConnector{
+	private static DBManager instance;
+
+	public static DBManager getInstance() {
+		if (instance == null) {
+			instance = new DBManager();
+		}
+		return instance;
+	}
+	
+	//Adds a user's transaction
+	public NBGTransaction addUserTransaction(NBGUser user, NBGTransaction nbgTrans) {
+		Session session = getSession();
+		Transaction trans = null;
+		try {
+			trans = session.beginTransaction();
+			user.addTransaction(nbgTrans);
+			session.save(user);
+			trans.commit();
+			return nbgTrans;
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			if (trans != null) {
+				trans.rollback();
+			}
+
+		} finally {
+			if (trans != null && trans.isActive()) {
+				session.flush();
+			}
+			session.close();
+		}
+		return null;
+	}
+	
+	public NBGUser retrieveUserTransaction(int id) {
+		Session session = getSession();
+		Transaction trans = null;
+		NBGUser user = null;
+		try {
+			trans = session.beginTransaction();
+			user = session.find(NBGUser.class, 1);
+			trans.commit();
+			return user;
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			if (trans != null) {
+				trans.rollback();
+			}
+
+		} finally {
+			if (trans != null && trans.isActive()) {
+				session.flush();
+			}
+			session.close();
+		}
+		
+		return user;
+	}
+	
+	 
+
+}

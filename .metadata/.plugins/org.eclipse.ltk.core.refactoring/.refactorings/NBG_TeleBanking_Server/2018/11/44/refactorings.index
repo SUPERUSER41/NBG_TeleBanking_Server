@@ -1,0 +1,6 @@
+1541274049146	Rename type 'BaseHibernate'
+1541274357853	Rename field 'date'
+1541274488668	Rename field 'dateSent'
+1541274917325	Rename type 'DatabaseManager'
+1541275268383	Delete element
+1541275705775	Rename type 'DBManager'

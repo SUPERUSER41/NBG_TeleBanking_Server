@@ -1,0 +1,14 @@
+package nbg.telebanking.app;
+
+import nbg.telebanking.database.DBProvider;
+import nbg.telebanking.models.User;
+
+public class Driver {
+
+	public static void main(String[] args) {
+		 DBProvider db = DBProvider.getInstance();
+	 
+	     System.out.println(db.createUser(new User("Daneil", "Greaves", "Email", "pass")));
+	}
+
+}

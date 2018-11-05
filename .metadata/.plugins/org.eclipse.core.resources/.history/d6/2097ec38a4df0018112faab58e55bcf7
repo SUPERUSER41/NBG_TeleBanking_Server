@@ -1,0 +1,13 @@
+package nbg.telebanking.database;
+
+public abstract class DBManager<T>{
+	
+	private static DBManager instance;
+
+	public static DBManager getInstance() {
+		return null;
+	}
+	
+	
+
+}

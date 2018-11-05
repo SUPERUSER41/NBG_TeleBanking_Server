@@ -1,0 +1,20 @@
+package nbg.telebanking.database;
+
+import java.util.List;
+
+public class DBProvider extends HibernateConnector{
+	
+	private static DBProvider instance;
+
+	public static DBProvider getInstance() {
+		if (instance == null) {
+			instance = new DBProvider();
+		}
+		return instance;
+	}
+	
+	
+	
+	
+
+}

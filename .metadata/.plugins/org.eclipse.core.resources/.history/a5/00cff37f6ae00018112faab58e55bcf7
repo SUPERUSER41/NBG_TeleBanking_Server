@@ -1,0 +1,49 @@
+package nbg.telebanking.database;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import nbg.telebanking.models.NBGTransaction;
+import nbg.telebanking.models.NBGUser;
+
+public class DBManager extends HibernateConnector{
+	private static DBManager instance;
+
+	public static DBManager getInstance() {
+		if (instance == null) {
+			instance = new DBManager();
+		}
+		return instance;
+	}
+	
+	public NBGTransaction addUserTransaction(NBGUser user, NBGTransaction nbgTrans) {
+		Session session = getSession();
+		Transaction trans = null;
+		try {
+			trans = session.beginTransaction();
+			List<NBGTransaction> transactions = new ArrayList<NBGTransaction>();
+			transactions.add(nbgTrans);
+			user.setTransactions(transactions);
+			session.save(user);
+			trans.commit();
+			return nbgTrans;
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			if (trans != null) {
+				trans.rollback();
+			}
+
+		} finally {
+			if (trans != null && trans.isActive()) {
+				session.flush();
+			}
+			session.close();
+		}
+		return null;
+		
+	}
+
+}

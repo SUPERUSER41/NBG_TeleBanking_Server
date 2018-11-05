@@ -1,0 +1,5 @@
+package nbg.telebanking.database;
+
+public abstract class BaseHibernate {
+
+}

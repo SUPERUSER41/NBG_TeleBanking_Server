@@ -1,0 +1,54 @@
+package nbg.telebanking.models;
+
+import java.io.Serializable;
+import java.sql.Date;
+
+public class Message implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	private int msgID;
+	private String msgBody;
+	private String query;
+	private Date dateSent;
+	
+	public Message() {
+		this(0, "", "",null);
+	}
+	public Message(int msgID, String msgBody, String query, Date dateSent) {
+		this.msgID = msgID;
+		this.msgBody = msgBody;
+		this.query = query;
+		this.dateSent = dateSent;
+	}
+	public String getQuery() {
+		return query;
+	}
+	public void setQuery(String query) {
+		this.query = query;
+	}
+	public int getMsgID() {
+		return msgID;
+	}
+	public void setMsgID(int msgID) {
+		this.msgID = msgID;
+	}
+	public String getMsgBody() {
+		return msgBody;
+	}
+	public void setMsgBody(String msgBody) {
+		this.msgBody = msgBody;
+	}
+	public Date getDateSent() {
+		return dateSent;
+	}
+	public void setDateSent(Date dateSent) {
+		this.dateSent = dateSent;
+	}
+	
+	
+	
+	
+
+	
+
+}

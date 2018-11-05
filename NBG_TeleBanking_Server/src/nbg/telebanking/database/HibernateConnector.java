@@ -4,8 +4,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.tool.hbm2ddl.SchemaExport;
 
-import nbg.telebanking.models.User;
 
 public abstract class HibernateConnector {
 	
@@ -14,7 +14,10 @@ public abstract class HibernateConnector {
 
 	private static SessionFactory getSessionFactory() throws HibernateException {
 		if (sessionFactory == null) {
-			config.configure("hibernate.cfg.xml").addAnnotatedClass(User.class);
+			config.configure("hibernate.cfg.xml");
+			
+			
+			
 			sessionFactory = config.buildSessionFactory();
 		}
 

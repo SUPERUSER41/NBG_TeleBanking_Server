@@ -1,0 +1,23 @@
+package nbg.telebanking.app;
+
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import nbg.telebanking.database.DBManager;
+import nbg.telebanking.models.NBGTransaction;
+import nbg.telebanking.models.NBGUser;
+
+public class Driver {
+
+	public static void main(String[] args) {
+		 DBManager db = DBManager.getInstance();
+		 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		 Date date = new Date();
+		 
+		 NBGUser user = new NBGUser("Daneil", "Greaves", "dan@yahoo.com", "pass", date);
+		 NBGTransaction trans = new NBGTransaction(new BigDecimal(500.00), "Bill Payment", "Transfer", "debit", date);
+	}
+
+}
