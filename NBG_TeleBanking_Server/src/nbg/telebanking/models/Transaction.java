@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,6 +19,10 @@ import javax.persistence.TemporalType;
 @Table(name="nbg_transactions")
 public class Transaction implements Serializable{
 	
+	@ManyToOne 
+	@JoinColumn(name="fk_transaction")	
+	private Type transactionType;
+	//transaction -> type = many to one
 	private static final long serialVersionUID = 1L;
 	@Id
 	@Column(name="trans_id", nullable=false, updatable=false)

@@ -1,6 +1,7 @@
 package nbg.telebanking.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,11 +13,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.CascadeType;
 
 @Entity
@@ -32,8 +34,8 @@ public class User implements Serializable{
 			inverseJoinColumns = { @JoinColumn(name="role_id")})
 	private Set<Roles> roles= new HashSet<>();
 	
-	@ManyToOne
-	@JoinColumn(name="fk_msgs")//foreign key column
+	@OneToMany(mappedBy="nbg_users")//foreign key column
+	private List<Message> messages = new ArrayList<>();
 	
 	@Id
 	@Column(name="user_id", nullable=false, updatable=false)
