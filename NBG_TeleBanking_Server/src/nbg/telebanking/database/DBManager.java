@@ -1,14 +1,12 @@
 package nbg.telebanking.database;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 
-import nbg.telebanking.models.NBGTransaction;
 import nbg.telebanking.models.NBGUser;
 
 public class DBManager extends HibernateConnector{
@@ -20,6 +18,32 @@ public class DBManager extends HibernateConnector{
 		}
 		return instance;
 	}
+	
+	/*---------------USER ACTIONS---------------*/
+	
+	/*ADD NEW USER TO DATABASE*/
+	
+	public void addUser(NBGUser user) {
+		Session session = getSession();
+		Transaction trans = null;
+		try {
+			trans = session.beginTransaction();
+			session.save(user);
+			trans.commit();
+		}catch(RuntimeException e) {
+			e.printStackTrace();
+			if (trans != null) {
+				trans.rollback();
+			}
+		}finally {
+			if (trans != null && trans.isActive()) {
+				session.flush();
+			}
+			session.close();
+		}
+	}
+	
+	/*GET USER FROM DATABASE*/
 	
 	public NBGUser fetchUser(String email, String password) {
 		Session session = getSession();
@@ -37,30 +61,7 @@ public class DBManager extends HibernateConnector{
 		return user;
 	}
 	
-	//Adds a user's transaction
-	public NBGTransaction addUserTransaction(NBGUser user, NBGTransaction nbgTrans) {
-		Session session = getSession();
-		Transaction trans = null;
-		try {
-			trans = session.beginTransaction();
-			user.addTransaction(nbgTrans);
-			session.save(user);
-			trans.commit();
-			return nbgTrans;
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-			if (trans != null) {
-				trans.rollback();
-			}
-
-		} finally {
-			if (trans != null && trans.isActive()) {
-				session.flush();
-			}
-			session.close();
-		}
-		return null;
-	}
+	
 	
 	public void retrieveUserTransaction(int id) {
 		Session session = getSession();

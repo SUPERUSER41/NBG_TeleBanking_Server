@@ -58,14 +58,14 @@ public class NBGTransaction implements Serializable{
 	private Date createAt;
 	
 	public NBGTransaction() {
-		this(new BigDecimal(0), "", "","",null);
+		this(new BigDecimal(0), "", "","");
 	}
 	
-	public NBGTransaction(BigDecimal amount, String description, String type, String transAction, Date created_at) {
+	public NBGTransaction(BigDecimal amount, String description, String type, String transAction) {
 		this.amount = amount;
 		this.description = description;
 		this.type = type;
-		this.createAt = created_at;
+		this.createAt = new Date();
 		this.transAction = transAction;
 	}
 
